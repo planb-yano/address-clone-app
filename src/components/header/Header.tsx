@@ -2,11 +2,20 @@ import React from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import "./Header.scss";
 
-const Header = () => {
+type Props = {
+  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const Header = (props: Props) => {
+  const { setIsModalOpen } = props;
+
+  const handleModal = () => {
+    setIsModalOpen(true);
+  };
   return (
     <div className="header">
       <div className="headerLeft">
-        <div className="headerIcon">
+        <div className="headerIcon" onClick={handleModal}>
           <MenuIcon fontSize="large" />
         </div>
         <h2>マイアドレス帳</h2>
