@@ -10,7 +10,11 @@ const AddressBook = () => {
       <div className="addressBookContainer">
         <h2 className="addressBookTitle">連絡先一覧</h2>
         <div className="addressBookMain">
-          <Link to="/addressForm">連絡先追加</Link>
+          <Link to="/addressForm">
+            <a href="/addressForm" className="addressFormAdd">
+              連絡先追加
+            </a>
+          </Link>
           <div className="addressBookTable">
             <table>
               <thead>
@@ -29,7 +33,9 @@ const AddressBook = () => {
                   <td>example@docomo.ne.jp</td>
                   <td>大阪府hogehoge</td>
                   <td>
-                    <EditIcon fontSize="small" />
+                    <Link to="/addressForm">
+                      <EditIcon fontSize="small" />
+                    </Link>
                     <DeleteIcon fontSize="small" />
                   </td>
                 </tr>
@@ -39,7 +45,9 @@ const AddressBook = () => {
                   <td>example@docomo.ne.jp</td>
                   <td>大阪府hogehoge</td>
                   <td>
-                    <EditIcon fontSize="small" />
+                    <Link to="/addressForm">
+                      <EditIcon fontSize="small" />
+                    </Link>
                     <DeleteIcon fontSize="small" />
                   </td>
                 </tr>
@@ -49,7 +57,9 @@ const AddressBook = () => {
                   <td>example@docomo.ne.jp</td>
                   <td>大阪府hogehoge</td>
                   <td>
-                    <EditIcon fontSize="small" />
+                    <Link to="/addressForm">
+                      <EditIcon fontSize="small" />
+                    </Link>
                     <DeleteIcon fontSize="small" />
                   </td>
                 </tr>
