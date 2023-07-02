@@ -29,20 +29,10 @@
             }
         }
         .sidebarMain {
-            .sidebarMainHome {
-                display: flex;
-                align-items: center;
-                margin: 16px 10px 16px 15px;
-                cursor: pointer;
-                color: black;
-                .MuiSvgIcon-root {
-                    margin-right: 10px;
-                }
-            }
             .sidebarMainAddress {
                 display: flex;
                 align-items: center;
-                margin: 0 10px 16px 15px;
+                margin: 16px;
                 cursor: pointer;
                 color: black;
                 .MuiSvgIcon-root {

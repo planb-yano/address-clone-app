@@ -1,6 +1,5 @@
 import React from "react";
 import "./Sidebar.scss";
-import HomeIcon from "@mui/icons-material/Home";
 import ListIcon from "@mui/icons-material/List";
 import { Link } from "react-router-dom";
 
@@ -24,12 +23,6 @@ const Sidebar = (props: Props) => {
             <p className="userName">矢野貴大</p>
           </div>
           <div className="sidebarMain">
-            <Link to="/" onClick={() => handleClose()}>
-              <div className="sidebarMainHome">
-                <HomeIcon fontSize="large" />
-                <p className="sidebarMainHomeName">ホーム</p>
-              </div>
-            </Link>
             <Link to="/addressBook" onClick={() => handleClose()}>
               <div className="sidebarMainAddress">
                 <ListIcon fontSize="large" />
