@@ -1,15 +1,39 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.scss";
 import Header from "./components/header/Header";
 import Home from "./pages/home/Home";
 import Sidebar from "./components/sidebar/Sidebar";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
 import NotFound from "./pages/notfound/NotFound";
 import AddressBook from "./pages/addressbook/AddressBook";
 import AddressForm from "./pages/addressform/AddressForm";
+import { useAppDispatch, useAppSelector } from "./app/hooks";
+import { auth } from "./firebase";
+import { login, logout } from "./features/user/userSlice";
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const user = useAppSelector((state) => state.user.user);
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    auth.onAuthStateChanged((loginUser) => {
+      if (loginUser) {
+        dispatch(
+          login({
+            uid: loginUser.uid,
+            displayName: loginUser.displayName,
+            email: loginUser.email,
+            photo: loginUser.photoURL,
+          })
+        );
+        navigate("/addressBook");
+      } else {
+        dispatch(logout);
+        navigate("/");
+      }
+    });
+  }, [dispatch]);
 
   return (
     <div className="App">
@@ -17,8 +41,14 @@ function App() {
       <Header setIsModalOpen={setIsModalOpen} />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/addressBook" element={<AddressBook />} />
-        <Route path="/addressForm" element={<AddressForm />} />
+        <Route
+          path="/addressBook"
+          element={user ? <AddressBook /> : <Navigate replace to="/" />}
+        />
+        <Route
+          path="/addressForm"
+          element={user ? <AddressForm /> : <Navigate replace to="/" />}
+        />
         <Route path="/*" element={<NotFound />} />
       </Routes>
     </div>
