@@ -1,6 +1,7 @@
 import React from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import "./Header.scss";
+import { auth } from "../../firebase";
 
 type Props = {
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -8,10 +9,10 @@ type Props = {
 
 const Header = (props: Props) => {
   const { setIsModalOpen } = props;
-
   const handleModal = () => {
     setIsModalOpen(true);
   };
+
   return (
     <div className="header">
       <div className="headerLeft">
@@ -20,7 +21,9 @@ const Header = (props: Props) => {
         </div>
         <h2>マイアドレス帳</h2>
       </div>
-      <button className="headerButton">ログアウト</button>
+      <button className="headerButton" onClick={() => auth.signOut()}>
+        ログアウト
+      </button>
     </div>
   );
 };
