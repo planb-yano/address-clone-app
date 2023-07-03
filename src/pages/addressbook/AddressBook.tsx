@@ -10,10 +10,8 @@ const AddressBook = () => {
       <div className="addressBookContainer">
         <h2 className="addressBookTitle">連絡先一覧</h2>
         <div className="addressBookMain">
-          <Link to="/addressForm">
-            <a href="/addressForm" className="addressFormAdd">
-              連絡先追加
-            </a>
+          <Link to="/addressForm" className="addressFormAdd">
+            連絡先追加
           </Link>
           <div className="addressBookTable">
             <table>
