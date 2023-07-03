@@ -2,6 +2,7 @@ import React from "react";
 import "./Sidebar.scss";
 import ListIcon from "@mui/icons-material/List";
 import { Link } from "react-router-dom";
+import { useAppSelector } from "../../app/hooks";
 
 type Props = {
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -9,6 +10,7 @@ type Props = {
 
 const Sidebar = (props: Props) => {
   const { setIsModalOpen } = props;
+  const user = useAppSelector((state) => state.user.user);
 
   const handleClose = () => {
     setIsModalOpen(false);
@@ -19,8 +21,8 @@ const Sidebar = (props: Props) => {
       <div className="overlay" onClick={() => handleClose()}>
         <div className="sidebarLeft" onClick={(e) => e.stopPropagation()}>
           <div className="sidebarHeader">
-            <img src="/unchi_character.png" alt="" />
-            <p className="userName">矢野貴大</p>
+            <img src={user?.photo} alt="" />
+            <p className="userName">{user?.displayName}</p>
           </div>
           <div className="sidebarMain">
             <Link to="/addressBook" onClick={() => handleClose()}>
