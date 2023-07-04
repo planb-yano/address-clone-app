@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import "./AddressForm.scss";
 import { Link } from "react-router-dom";
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "../../firebase";
+import { useAppSelector } from "../../app/hooks";
 
 interface FormData {
   name: string;
@@ -10,6 +13,8 @@ interface FormData {
 }
 
 const Address = () => {
+  const user = useAppSelector((state) => state.user.user);
+
   const [nameActive, setNameActive] = useState<boolean>(false);
   const [telActive, setTelActive] = useState<boolean>(false);
   const [emailActive, setEmailActive] = useState<boolean>(false);
@@ -20,10 +25,21 @@ const Address = () => {
     email: "",
     address: "",
   });
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
+
+  const addAddress = async () => {
+    await addDoc(collection(db, `users/${user?.uid}/addresses`), {
+      name: formData.name,
+      tel: formData.tel,
+      email: formData.email,
+      address: formData.address,
+    });
+  };
+
   return (
     <div className="addressForm">
       <h2 className="addressFromTitle">連絡先編集</h2>
@@ -93,7 +109,9 @@ const Address = () => {
         </form>
         <div className="addressFromFooter">
           <Link to="/addressBook">キャンセル</Link>
-          <Link to="/addressBook">保存</Link>
+          <Link to="/addressBook" onClick={addAddress}>
+            保存
+          </Link>
         </div>
       </div>
     </div>
