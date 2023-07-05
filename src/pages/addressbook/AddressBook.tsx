@@ -4,7 +4,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { Link } from "react-router-dom";
 import { useAppSelector } from "../../app/hooks";
-import { collection, onSnapshot } from "firebase/firestore";
+import { collection, deleteDoc, doc, onSnapshot } from "firebase/firestore";
 import { db } from "../../firebase";
 
 const AddressBook = () => {
@@ -42,6 +42,10 @@ const AddressBook = () => {
     });
   }, []);
 
+  const handleDelete = async (id: string) => {
+    await deleteDoc(doc(db, `users/${user?.uid}/addresses/${id}`));
+  };
+
   return (
     <div className="addressBook">
       <div className="addressBookContainer">
@@ -67,8 +71,8 @@ const AddressBook = () => {
                     <td colSpan={5}>登録されている連絡先はありません</td>
                   </tr>
                 ) : (
-                  addresses?.map((address, index) => (
-                    <tr key={index}>
+                  addresses?.map((address) => (
+                    <tr key={address.id}>
                       <td>{address.name}</td>
                       <td>{address.tel}</td>
                       <td>{address.email}</td>
@@ -77,7 +81,10 @@ const AddressBook = () => {
                         <Link to={`${address.id}/edit`}>
                           <EditIcon fontSize="small" />
                         </Link>
-                        <DeleteIcon fontSize="small" />
+                        <DeleteIcon
+                          fontSize="small"
+                          onClick={() => handleDelete(address.id)}
+                        />
                       </td>
                     </tr>
                   ))
