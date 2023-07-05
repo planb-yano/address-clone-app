@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./AddressForm.scss";
 import { Link, useParams } from "react-router-dom";
-import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import { useAppSelector } from "../../app/hooks";
 
@@ -26,12 +26,32 @@ const Address = () => {
     address: "",
   });
 
+  const { addressId } = useParams();
+
+  useEffect(() => {
+    const getAddresses = async () => {
+      return await getDoc(
+        doc(db, `users/${user?.uid}/addresses/${addressId}`)
+      ).then((res) => res.data());
+    };
+    const setForm = async () => {
+      let collectionRef = await getAddresses();
+      setFormData({
+        name: collectionRef?.name,
+        tel: collectionRef?.tel,
+        email: collectionRef?.email,
+        address: collectionRef?.address,
+      });
+    };
+    if (addressId) {
+      setForm();
+    }
+  }, []);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
-
-  const { addressId } = useParams();
 
   const handleClick = async () => {
     if (addressId) {
