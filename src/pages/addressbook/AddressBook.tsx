@@ -15,6 +15,7 @@ const AddressBook = () => {
       tel: string;
       email: string;
       address: string;
+      id: string;
     }[]
   >();
 
@@ -26,6 +27,7 @@ const AddressBook = () => {
         tel: string;
         email: string;
         address: string;
+        id: string;
       }[] = [];
       snapshot.docs.forEach((doc) => {
         results.push({
@@ -33,6 +35,7 @@ const AddressBook = () => {
           tel: doc.data().tel,
           email: doc.data().email,
           address: doc.data().address,
+          id: doc.id,
         });
       });
       setAddresses(results);
@@ -44,7 +47,7 @@ const AddressBook = () => {
       <div className="addressBookContainer">
         <h2 className="addressBookTitle">連絡先一覧</h2>
         <div className="addressBookMain">
-          <Link to="/addressForm" className="addressFormAdd">
+          <Link to="edit" className="addressFormAdd">
             連絡先追加
           </Link>
           <div className="addressBookTable">
@@ -71,7 +74,7 @@ const AddressBook = () => {
                       <td>{address.email}</td>
                       <td>{address.address}</td>
                       <td>
-                        <Link to="/addressForm">
+                        <Link to={`${address.id}/edit`}>
                           <EditIcon fontSize="small" />
                         </Link>
                         <DeleteIcon fontSize="small" />

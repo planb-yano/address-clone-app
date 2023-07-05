@@ -10,6 +10,7 @@ import AddressForm from "./pages/addressform/AddressForm";
 import { useAppDispatch, useAppSelector } from "./app/hooks";
 import { auth } from "./firebase";
 import { login, logout } from "./features/user/userSlice";
+import AddressIndex from "./pages/addresses/Addresses";
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -43,12 +44,14 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route
           path="/addressBook"
-          element={user ? <AddressBook /> : <Navigate replace to="/" />}
-        />
-        <Route
-          path="/addressForm"
-          element={user ? <AddressForm /> : <Navigate replace to="/" />}
-        />
+          element={user ? <AddressIndex /> : <Navigate replace to="/" />}
+        >
+          <Route index element={<AddressBook />} />
+          <Route
+            path=":addressId?/edit"
+            element={user ? <AddressForm /> : <Navigate replace to="/" />}
+          />
+        </Route>
         <Route path="/*" element={<NotFound />} />
       </Routes>
     </div>
