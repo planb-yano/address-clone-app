@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./AddressForm.scss";
-import { Link } from "react-router-dom";
-import { addDoc, collection } from "firebase/firestore";
+import { Link, useParams } from "react-router-dom";
+import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 import { useAppSelector } from "../../app/hooks";
 
@@ -31,13 +31,24 @@ const Address = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const addAddress = async () => {
-    await addDoc(collection(db, `users/${user?.uid}/addresses`), {
-      name: formData.name,
-      tel: formData.tel,
-      email: formData.email,
-      address: formData.address,
-    });
+  const { addressId } = useParams();
+
+  const handleClick = async () => {
+    if (addressId) {
+      await updateDoc(doc(db, `users/${user?.uid}/addresses/${addressId}`), {
+        name: formData.name,
+        tel: formData.tel,
+        email: formData.email,
+        address: formData.address,
+      });
+    } else {
+      await addDoc(collection(db, `users/${user?.uid}/addresses`), {
+        name: formData.name,
+        tel: formData.tel,
+        email: formData.email,
+        address: formData.address,
+      });
+    }
   };
 
   return (
@@ -109,7 +120,7 @@ const Address = () => {
         </form>
         <div className="addressFromFooter">
           <Link to="/addressBook">キャンセル</Link>
-          <Link to="/addressBook" onClick={addAddress}>
+          <Link to="/addressBook" onClick={handleClick}>
             保存
           </Link>
         </div>
